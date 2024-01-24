@@ -1,0 +1,24 @@
+# Node.js
+node_modules/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+
+# Dependency directory
+pids
+*.pid
+*.seed
+*.pid.lock
+
+# Optional
+.DS_Store
+
+# dotenv environment variables file
+.env
+.env.local
+
+# sequelize configuration
+config/config.json
+
