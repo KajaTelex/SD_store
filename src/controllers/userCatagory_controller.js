@@ -62,41 +62,6 @@ const getByIdUsercatagory = async(req, res) => {
   }
 }
 
-const updateByUserId_usercatagories = async(req, res) => {
-  try {
-    const id = req.params.id;
-    const catagory_name = req.body.catagory_name;
 
-    const updated_data = await database.models.userCatagory_model.update(
-      {catagory_name :catagory_name
-      },{
-      where : {
-        id : id
-      }
-    });
-    res.status(200).json(successResponse("success", "update user catatagories",updated_data));
 
-  }catch(error) {
-    console.log("error::::::::::;",error);
-    res.status(400).json(failureResponse("failure", "not update users catagory", error));
-  }
-}
-
-const deletebyId_usercatagories = async(req, res) => {
-  try {
-    const id = req.params.id;
-
-    const deleted_data = await database.models.userCatagory_model.destroy({
-      where : {
-        id : id
-      }
-    });
-    res.status(200).json(successResponse("success", "update user catatagories",deleted_data));
-
-  }catch(error) {
-    console.log("error::::::::::;",error);
-    res.status(400).json(failureResponse("failure", "not update users catagory", error));
-  }
-}
-
-module.exports = { createUserCatagoryApi , getAllAssociations, getByIdUsercatagory,updateByUserId_usercatagories,deletebyId_usercatagories};
+module.exports = { createUserCatagoryApi , getAllAssociations, getByIdUsercatagory};

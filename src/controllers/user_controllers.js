@@ -214,7 +214,6 @@ const forgetPasswordApi = async (req, res) => {
         try {
            const mobile_number = req.body.mobile_number;
            const password = req.body.password;
-             //let secret_key = "jnckdbuisdfhduasihnfi851"
            let secret_key = process.env.SECRET_KEY;
            console.log("...........",secret_key);
 
@@ -232,9 +231,13 @@ const forgetPasswordApi = async (req, res) => {
              res.status(404).json(failureResponse("failure", "user not found, please sign up first"));
   
         }
+        else if(!password) {
+            res.status(401).json(failureResponse("failure", "please enter valid password"));
+  
+        }
       
          else if (password !== user.password) {
-           res.status(401).json(failureResponse("failure", "please enter valid password"));
+           res.status(401).json(failureResponse("failure", "please enter correct password"));
            
           }
   

@@ -3,9 +3,14 @@ const { successResponse, failureResponse } = require("../../src/utilities/utilit
 
 
 
-const createCatagoryApi = async (req, res) => {
+const createCatagoryApi = 
+ async (req, res) => {
     try {
-        const {catagory_name, catagory_image, catagory_possition, userData } = req.body;
+
+        console.log("req is-----------",req.body);
+
+         const {catagory_name, catagory_possition, catagory_image,productId } = req.body;
+
 
         const isId_exists = await database.models.catagory_model.findOne({
             where: {
@@ -16,18 +21,30 @@ const createCatagoryApi = async (req, res) => {
 
         console.log(" checking data ===============================", isId_exists);
 
-        if (isId_exists !== null) {
-            console.log("@@@@@@@@@",isId_exists)
+        if(!catagory_name) {
+            return res.status(400).json(failureResponse("failure", "please provide valid catagory name"));
+        }
+        else if(!catagory_possition) {
+            return res.status(400).json(failureResponse("failure", "please provide valid catagory position"));
+        }
+        else if(!productId) {
+            return res.status(400).json(failureResponse("failure", "please provide valid product id "));
+        }
+
+         else if (isId_exists !== null) {
+            console.log("@@@@@@@@@",isId_exists);
 
             
         return res.status(400).json(failureResponse("failure", "catagory is already exists"));
         }
 
-
-        const createData = await database.models.catagory_model.create({
-            user_id :userData, catagory_name, catagory_image, catagory_possition });
-
-       return res.status(201).json(successResponse("success", "catagory api is created", createData));
+        else {
+            const createData = await database.models.catagory_model.create({
+                catagory_name, catagory_image, catagory_possition }); 
+   
+           res.status(201).json(successResponse("success", "catagory api is created",req.body));    
+        }
+        
 
     } catch (error) {
         console.log("error isssssssssss", error);
@@ -39,11 +56,11 @@ const getAllCatagoriesApi = async(req, res) => {
     try {
 
         const getAllCatagoriesData = await database.models.catagory_model.findAll();
-        res.status(201).json(successResponse("success", "found All catagories data",getAllCatagoriesData));
+      return  res.status(201).json(successResponse("success", "found All catagories data",getAllCatagoriesData));
 
     }catch(error) {
         console.log("error;;;;;;;;;;;;;;;",error);
-        res.status(500).json(failureResponse("failure", " something went wrong", error))
+       return res.status(500).json(failureResponse("failure", " something went wrong", error))
     }
 }
 
@@ -59,11 +76,11 @@ const getCategoryByIdApi = async (req, res) => {
         }
 
       else {
-        res.status(200).json(successResponse("success", "Category retrieved", category));
+      return  res.status(200).json(successResponse("success", "Category retrieved", category));
       } 
     } catch (error) {
         console.log("error======================", error);
-        res.status(500).json(failureResponse("failure", "Something went wrong", error));
+      return  res.status(500).json(failureResponse("failure", "Something went wrong", error));
     }
 };
 
@@ -90,10 +107,10 @@ const updateCategoryApi = async (req, res) => {
             }
         });
 
-        res.status(200).json(successResponse("success", "Category updated", updateCatApi));
+      return  res.status(200).json(successResponse("success", "Category updated", updateCatApi));
     } catch (error) {
         console.log("error======================", error);
-        res.status(500).json(failureResponse("failure", "Something went wrong", error));
+       return res.status(500).json(failureResponse("failure", "Something went wrong", error));
     }
 };
 
@@ -115,10 +132,10 @@ const deleteCategoryApi = async (req, res) => {
             }
         });
 
-        res.status(200).json(successResponse("success", "Category deleted", deleteCatApi));
+      return  res.status(200).json(successResponse("success", "Category deleted", deleteCatApi));
     } catch (error) {
         console.log("error======================", error);
-        res.status(500).json(failureResponse("failure", "Something went wrong", error));
+      return  res.status(500).json(failureResponse("failure", "Something went wrong", error));
     }
 };
 

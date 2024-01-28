@@ -65,18 +65,19 @@ async function verifyToken(req, res, next) {
         // Attach token to req.token (not req.toeken)
         req.token = token;
 
+       
+
         // Verify the token using async/await
         const decoded = await jwt.verify(req.token, secret_key);
 
         console.log("Decoded user data is", decoded);
+        next();
 
         // Attach decoded data to req.userData
         req.userData = decoded;
         return res.status(200).json(successResponse("success","successfully authorised ", req.userData));
 
-
-        // Continue to the next middleware or route handler
-        next();
+        
     } catch (err) {
         return res.status(401).json(failureResponse("failure", "Session is expired, please login again", err));
     }
